@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/bsm-invoice/static/css/main.28b7f004.css",
+    "main.js": "/bsm-invoice/static/js/main.ba6bf15f.js",
+    "static/media/bird.png": "/bsm-invoice/static/media/bird.614d5ce358b14e95e635.png",
+    "index.html": "/bsm-invoice/index.html",
+    "main.28b7f004.css.map": "/bsm-invoice/static/css/main.28b7f004.css.map",
+    "main.ba6bf15f.js.map": "/bsm-invoice/static/js/main.ba6bf15f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.28b7f004.css",
+    "static/js/main.ba6bf15f.js"
+  ]
+}
