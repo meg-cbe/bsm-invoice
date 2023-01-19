@@ -1,16 +1,14 @@
 {
   "files": {
-    "main.css": "/bsm-invoice/static/css/main.6724a721.css",
-    "main.js": "/bsm-invoice/static/js/main.79ea656e.js",
-    "static/media/bird.png": "/bsm-invoice/static/media/bird.614d5ce358b14e95e635.png",
+    "main.css": "/bsm-invoice/static/css/main.30322b2f.css",
+    "main.js": "/bsm-invoice/static/js/main.2fff5cd7.js",
     "static/media/bsm logo.png": "/bsm-invoice/static/media/bsm logo.94965743cfdd9e86e8b5.png",
-    "static/media/qr.png": "/bsm-invoice/static/media/qr.357d2972e1db2cc46f87.png",
     "index.html": "/bsm-invoice/index.html",
-    "main.6724a721.css.map": "/bsm-invoice/static/css/main.6724a721.css.map",
-    "main.79ea656e.js.map": "/bsm-invoice/static/js/main.79ea656e.js.map"
+    "main.30322b2f.css.map": "/bsm-invoice/static/css/main.30322b2f.css.map",
+    "main.2fff5cd7.js.map": "/bsm-invoice/static/js/main.2fff5cd7.js.map"
   },
   "entrypoints": [
-    "static/css/main.6724a721.css",
-    "static/js/main.79ea656e.js"
+    "static/css/main.30322b2f.css",
+    "static/js/main.2fff5cd7.js"
   ]
 }
