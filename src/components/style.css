@@ -136,7 +136,11 @@ th, .pad-5 {
         flex-direction: column;
     }
   }
-
+.note{
+    padding: 25px;
+    margin-bottom: 10px;
+    background: #daf1ec;
+}
 .second-div{
     display: flex;
     flex-direction: row;
@@ -248,8 +252,8 @@ th, .pad-5 {
     display: block;
     margin: 0 auto;
     padding: 8px;
-    width: 10cm;
-    height: 15cm;
+    width: 14.85cm;
+    height: 21cm;
 }
 
 .border-bottom {
@@ -393,7 +397,7 @@ th, .pad-5 {
 .anch{
     border: 2px solid black;
     background: white;
-    margin: 20px;
+    margin: 15px;
     padding: 10px;
     border-radius: 10px;
 }

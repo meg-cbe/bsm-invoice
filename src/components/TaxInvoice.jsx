@@ -27,6 +27,8 @@ function TaxInvoice() {
   const [gSum, setGsum] = useState(0)
   const [pSum, setPsum] = useState(0)
   const [width] = useState(641)
+  const [isClicked, setIsClicked] = useState(false)
+  const [addressList, setAddressList] = useState("")
 
   const componentRef = useRef()
 
@@ -35,7 +37,11 @@ function TaxInvoice() {
       alert("Place your phone in landscape mode for the best experience")
     }
   }, [width])
-
+  
+  let handleClick = (e) => {
+    e.preventDefault();
+    setIsClicked(!isClicked)
+  }
   function price_in_words(price) {
     var sglDigit = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"],
       dblDigit = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"],
@@ -94,6 +100,10 @@ function TaxInvoice() {
 
   }
 
+  let nameArray = ["ONLY CHAINS", "SRI BALAJI JEWELLERS",]
+  let addressArray = ["359/11-13 jewel Manor Complex Ground Floor Raja Street Coimbatore-641001", "136A Kamadenu Bavan Swami Iyer New Street Coimbatore 641001",]
+  let gstArray = ["33AAFFO5037J1ZA", "33AIEPB2138C1Z5"]
+
   function floatInWords(num) {
     var splittedNum = num.toString().split('.')
     var nonDecimal = splittedNum[0]
@@ -105,12 +115,12 @@ function TaxInvoice() {
   let grandTotal = parseFloat(total) + renderGst
   let roundOff = grandTotal - parseInt(grandTotal)
 
-  const simpleYear = moment(new Date()).format( "YY" );
-  let prevYear = parseInt(simpleYear)-1
+  // const simpleYear = moment(new Date()).format( "YY" );
+  // let nextYear = parseInt(simpleYear)+1
 
   let renderTax = list?.map((l, i) => {
     return (
-      <tr style={{textAlign:"center"}} key={i}>
+      <tr style={{ textAlign: "center" }} key={i}>
         <td className="border pad-0" colspan="1">{l.hsn}</td>
         <td className="border pad-0" colspan="1">{l.amount}</td>
         <td className="border pad-0" colspan="1">{l.gst / 2}%</td>
@@ -173,52 +183,80 @@ function TaxInvoice() {
                   />
                 </div>
               </article>
-              <article className="md:grid grid-cols-2 gap-5">
-                <div className="flex flex-col">
-                  <label htmlFor="billName">Billing Name</label>
-                  <input
-                    required
-                    type="text"
-                    name="billName"
-                    id="billName"
-                    placeholder="Name"
-                    autoComplete="off"
-                    value={billName}
-                    onChange={(e) => setbillName(e.target.value)}
-                  />
+
+              <article className="note">
+                <div>
+                  <button
+                    onClick={(e) => { handleClick(e) }}
+                    className="mb-5 bg-red-500 text-white font-bold py-2 px-5 rounded shadow border-2 border-red-500 hover:bg-transparent hover:text-red-500 transition-all duration-300">
+                    {isClicked ? "Cancel" : "Add new Address"}
+                  </button>
                 </div>
-                <div className="flex flex-col">
-                  <label htmlFor="billGst">Billing GST</label>
-                  <input
-                    required
-                    type="text"
-                    name="billGst"
-                    id="billGst"
-                    placeholder="GST Number"
-                    autoComplete="off"
-                    value={billGst}
-                    onChange={(e) => setbillGst(e.target.value)}
-                  />
-                </div>
+                {
+                  !isClicked && <div className="flex flex-col">
+                    <label htmlFor="addressList">Address List</label>
+
+                    <select
+                      id="addressList"
+                      name="addressList"
+                      value={addressList}
+                      onChange={(e) => setAddressList(e.target.value)}
+                    >
+                      <option value={null}>select address</option>
+                      <option value={0}>ONLY CHAINS</option>
+                      <option value={1}>SRI BALAJI JEWELLERS</option>
+
+                    </select>
+                  </div>
+                }
+                {isClicked && <article>
+                  <article className="md:grid grid-cols-2 gap-5">
+                    <div className="flex flex-col">
+                      <label htmlFor="billName">Billing Name</label>
+                      <input
+                        required
+                        type="text"
+                        name="billName"
+                        id="billName"
+                        placeholder="Name"
+                        autoComplete="off"
+                        value={billName}
+                        onChange={(e) => setbillName(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor="billGst">Billing GST</label>
+                      <input
+                        required
+                        type="text"
+                        name="billGst"
+                        id="billGst"
+                        placeholder="GST Number"
+                        autoComplete="off"
+                        value={billGst}
+                        onChange={(e) => setbillGst(e.target.value)}
+                      />
+                    </div>
+
+                  </article>
+                  <div style={{ width: "100%" }}>
+                    <label htmlFor="billAddress">Billing Address</label>
+                    <input
+                      style={{ width: "100%" }}
+                      required
+                      type="text"
+                      name="billAddress"
+                      id="billAddress"
+                      placeholder="Address"
+                      autoComplete="off"
+                      value={billAddress}
+                      onChange={(e) => setbillAddress(e.target.value)}
+                    />
+                  </div>
+                </article>}
+
 
               </article>
-              <div className="">
-                <div style={{ width: "100%" }}>
-                  <label htmlFor="billAddress">Billing Address</label>
-                  <input
-                    style={{ width: "100%" }}
-                    required
-                    type="text"
-                    name="billAddress"
-                    id="billAddress"
-                    placeholder="Address"
-                    autoComplete="off"
-                    value={billAddress}
-                    onChange={(e) => setbillAddress(e.target.value)}
-                  />
-                </div>
-
-              </div>
 
               {/* This is our table form */}
               <article>
@@ -305,9 +343,9 @@ function TaxInvoice() {
                 }}>INVOICE TO:</h3>
                 <div style={{ paddingLeft: "20px", lineHeight: 1.4 }} >
 
-                  <h2 style={{ fontWeight: 600, textTransform: "uppercase" }} className="">{billName}</h2>
-                  <p style={{ fontSize:"14px" }}>{billAddress}</p>
-                  <p style={{ textTransform: "uppercase" }}>GSTin : <b>{billGst}</b></p>
+                  <h2 style={{ fontWeight: 600, textTransform: "uppercase" }} className="">{(!isClicked && addressList !== null) ? nameArray[addressList] : billName}</h2>
+                  <p style={{ fontSize: "14px" }}>{(!isClicked && addressList !== null) ? addressArray[addressList] : billAddress}</p>
+                  <p style={{ textTransform: "uppercase" }}>GSTin : <b>{(!isClicked && addressList !== null) ? gstArray[addressList] : billGst}</b></p>
                 </div>
               </div>
               <div style={{
@@ -332,7 +370,7 @@ function TaxInvoice() {
             </div>
           </div>
           <div className="second-div border-right">
-            <p style={{ fontWeight: 600 }} className="head-address left " colspan="4">Bill No : BSM/GST/{invoiceNumber}/{prevYear +"-"+simpleYear}</p>
+            <p style={{ fontWeight: 600 }} className="head-address left " colspan="4">Bill No : BSM/GST/{invoiceNumber}</p>
             <p className="head-address " colspan="3"></p>
             <p style={{ fontWeight: 600 }} className="head-address right " colspan="4">Date : {invoiceDate ? moment(invoiceDate).format("DD-MM-YYYY") : ""}</p>
           </div>
@@ -394,13 +432,13 @@ function TaxInvoice() {
                 <td colspan="1" className="border-right font-14"><b>Total</b></td>
                 <td colspan="1" className="border-right font-12"><b>{pSum}</b></td>
                 <td colspan="1" className="border-right font-12"><b></b></td>
-                <td colspan="1" style={{textAlign:"end"}} className="border-right font-12"><b>{gSum}</b></td>
+                <td colspan="1" style={{ textAlign: "end" }} className="border-right font-12"><b>{gSum}</b></td>
                 <td colspan="1" className="border-right font-12"><b>{nSum}gms</b></td>
                 <td colspan="1" className="border-right"></td>
-                <td colspan="1" style={{textAlign:"end"}} className="border-right font-12"><b>{total}</b></td>
+                <td colspan="1" style={{ textAlign: "end" }} className="border-right font-12"><b>{total}</b></td>
               </tr>
               <tr style={{ textAlign: "end" }} className="row">
-                <td colspan="9" style={{ textAlign: "start", fontSize: "14px", position:"relative" }} className=" bot-white">
+                <td colspan="9" style={{ textAlign: "start", fontSize: "14px", position: "relative" }} className=" bot-white">
                   <b className="textamount">Rupees {grandTotal ? price_in_words(parseInt(grandTotal)) : ""} Only</b>
                 </td>
                 <td colspan="2" className="border-right font-14"><b>SGST</b></td>
@@ -439,9 +477,9 @@ function TaxInvoice() {
                         </tbody>
                       </table>
                     </div>
-                    <b style={{ paddingLeft: "10px", textAlign:"start" }}>Tax Amount (in words)</b>
-                    <p style={{ paddingLeft: "10px", textAlign:"start" }} className="font-14">
-                      
+                    <b style={{ paddingLeft: "10px", textAlign: "start" }}>Tax Amount (in words)</b>
+                    <p style={{ paddingLeft: "10px", textAlign: "start" }} className="font-14">
+
                       Rs. {floatInWords(renderGst.toFixed(2))} Only
                     </p>
                   </div>
@@ -467,7 +505,7 @@ function TaxInvoice() {
                 marginBottom: "5px",
                 textDecoration: "underline"
               }}>Declaration:</h3>
-              <div style={{ paddingLeft: "15px", paddingRight: "5px", fontSize:"13px" }}>
+              <div style={{ paddingLeft: "15px", paddingRight: "5px", fontSize: "13px" }}>
                 <p>We declare that this invoice shows the actual price of the goods described and that all Particulars are true and correct. </p>
               </div>
             </div>

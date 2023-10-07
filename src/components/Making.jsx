@@ -13,22 +13,25 @@ function Making() {
     const [description, setDescription] = useState("")
     const [gold, setGold] = useState(0)
     const [goldSmith, setGoldSmith] = useState("")
+    const [goldName, setGoldName] = useState("")
+    const [goldPan, setGoldPan] = useState("")
+
     const [hsn, setHsn] = useState("")
     const [address, setAddress] = useState("")
     const [rate, setRate] = useState(0)
     const [amount, setAmount] = useState("")
     const [list, setList] = useState([])
     const [total, setTotal] = useState(0)
+    const [isClicked, setIsClicked] = useState(false)
     const [width] = useState(641)
-    let tds = total ? (parseFloat(total).toFixed(2)/100 * 1) : 0
-    let gst = total ? (parseFloat(total).toFixed(2)/100 * 2.5) : 0
-
-    let totalGst = total ? (parseFloat(total).toFixed(2)/100 * 5) : 0
-
+    let tds = total ? (parseFloat(total).toFixed(2) / 100 * 1) : 0
+    let gst = total ? (parseFloat(total).toFixed(2) / 100 * 2.5) : 0
+    let grandWithTax = parseFloat(total) * ((100 + 5) / 100);
+    let totalGst = total ? (parseFloat(total).toFixed(2) / 100 * 5) : 0
     const componentRef = useRef()
-    let smithArray = ["RANJIT", "BAPAN KHANRA","DEBAJISH BERA","KAUSIK JANA","BISWAJIT PARYA", "PRAFULLA MAL", "KHOKAN SAMANTA","BARUN KUMAR DAS"]
-    let panArray = ["EOQPS7148F", "DJGPK6392M", "CUAPD9535P","ATBPJ2384E", "DJBPP3942K","EOVPM6983J","LNKPS9756D","BVLPD6515N"]
-    
+    let smithArray = ["RANJIT", "BAPAN KHANRA", "DEBAJISH BERA", "KAUSIK JANA", "BISWAJIT PARYA", "PRAFULLA MAL", "KHOKAN SAMANTA", "BARUN KUMAR DAS"]
+    let panArray = ["EOQPS7148F", "DJGPK6392M", "CUAPD9535P", "ATBPJ2384E", "DJBPP3942K", "EOVPM6983J", "LNKPS9756D", "BVLPD6515N"]
+
     useEffect(() => {
         if (window.innerWidth < width) {
             alert("Place your phone in landscape mode for the best experience")
@@ -36,68 +39,72 @@ function Making() {
     }, [width])
     function price_in_words(price) {
         var sglDigit = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"],
-          dblDigit = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"],
-          tensPlace = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"],
-          handle_tens = function (dgt, prevDgt) {
-            return 0 === dgt ? "" : " " + (1 === dgt ? dblDigit[prevDgt] : tensPlace[dgt])
-          },
-          handle_utlc = function (dgt, nxtDgt, denom) {
-            return (0 !== dgt && 1 !== nxtDgt ? " " + sglDigit[dgt] : "") + (0 !== nxtDgt || dgt > 0 ? " " + denom : "")
-          };
-    
+            dblDigit = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"],
+            tensPlace = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"],
+            handle_tens = function (dgt, prevDgt) {
+                return 0 === dgt ? "" : " " + (1 === dgt ? dblDigit[prevDgt] : tensPlace[dgt])
+            },
+            handle_utlc = function (dgt, nxtDgt, denom) {
+                return (0 !== dgt && 1 !== nxtDgt ? " " + sglDigit[dgt] : "") + (0 !== nxtDgt || dgt > 0 ? " " + denom : "")
+            };
+
         var str = "",
-          digitIdx = 0,
-          digit = 0,
-          nxtDigit = 0,
-          words = [];
+            digitIdx = 0,
+            digit = 0,
+            nxtDigit = 0,
+            words = [];
         if (price += "", isNaN(parseInt(price))) str = "";
         else if (parseInt(price) > 0 && price.length <= 10) {
-          for (digitIdx = price.length - 1; digitIdx >= 0; digitIdx--) switch (digit = price[digitIdx] - 0, nxtDigit = digitIdx > 0 ? price[digitIdx - 1] - 0 : 0, price.length - digitIdx - 1) {
-            case 0:
-              words.push(handle_utlc(digit, nxtDigit, ""));
-              break;
-            case 1:
-              words.push(handle_tens(digit, price[digitIdx + 1]));
-              break;
-            case 2:
-              words.push(0 !== digit ? " " + sglDigit[digit] + " Hundred" + (0 !== price[digitIdx + 1] && 0 !== price[digitIdx + 2] ? " and" : "") : "");
-              break;
-            case 3:
-              words.push(handle_utlc(digit, nxtDigit, "Thousand"));
-              break;
-            case 4:
-              words.push(handle_tens(digit, price[digitIdx + 1]));
-              break;
-            case 5:
-              words.push(handle_utlc(digit, nxtDigit, "Lakh"));
-              break;
-            case 6:
-              words.push(handle_tens(digit, price[digitIdx + 1]));
-              break;
-            case 7:
-              words.push(handle_utlc(digit, nxtDigit, "Crore"));
-              break;
-            case 8:
-              words.push(handle_tens(digit, price[digitIdx + 1]));
-              break;
-            case 9:
-              words.push(0 !== digit ? " " + sglDigit[digit] + " Hundred" + (0 !== price[digitIdx + 1] || 0 !== price[digitIdx + 2] ? " and" : " Crore") : "")
-              break;
-            default:
-              break;
-          }
-          str = words.reverse().join("")
+            for (digitIdx = price.length - 1; digitIdx >= 0; digitIdx--) switch (digit = price[digitIdx] - 0, nxtDigit = digitIdx > 0 ? price[digitIdx - 1] - 0 : 0, price.length - digitIdx - 1) {
+                case 0:
+                    words.push(handle_utlc(digit, nxtDigit, ""));
+                    break;
+                case 1:
+                    words.push(handle_tens(digit, price[digitIdx + 1]));
+                    break;
+                case 2:
+                    words.push(0 !== digit ? " " + sglDigit[digit] + " Hundred" + (0 !== price[digitIdx + 1] && 0 !== price[digitIdx + 2] ? " and" : "") : "");
+                    break;
+                case 3:
+                    words.push(handle_utlc(digit, nxtDigit, "Thousand"));
+                    break;
+                case 4:
+                    words.push(handle_tens(digit, price[digitIdx + 1]));
+                    break;
+                case 5:
+                    words.push(handle_utlc(digit, nxtDigit, "Lakh"));
+                    break;
+                case 6:
+                    words.push(handle_tens(digit, price[digitIdx + 1]));
+                    break;
+                case 7:
+                    words.push(handle_utlc(digit, nxtDigit, "Crore"));
+                    break;
+                case 8:
+                    words.push(handle_tens(digit, price[digitIdx + 1]));
+                    break;
+                case 9:
+                    words.push(0 !== digit ? " " + sglDigit[digit] + " Hundred" + (0 !== price[digitIdx + 1] || 0 !== price[digitIdx + 2] ? " and" : " Crore") : "")
+                    break;
+                default:
+                    break;
+            }
+            str = words.reverse().join("")
         } else str = "";
         return str
-    
-      }
-      function floatInWords(num) {
+
+    }
+    let handleClick = (e) => {
+        e.preventDefault();
+        setIsClicked(!isClicked)
+    }
+    function floatInWords(num) {
         var splittedNum = num.toString().split('.')
         var nonDecimal = splittedNum[0]
         var decimal = splittedNum[1]
         var value = price_in_words(Number(nonDecimal)) + " and " + price_in_words(Number(decimal)) + " paise";
         return value
-      }
+    }
     let renderList = list?.map((l, i) => {
         return (
             <tr key={i}>
@@ -160,30 +167,70 @@ function Making() {
                                     />
                                 </div>
                             </article>
-                            <article>
-                                <div className="flex flex-col">
-                                    <label htmlFor="goldSmith">Gold Smiths list</label>
+                            <article className="note">
+                                {
+                                    !isClicked && <div className="flex flex-col">
+                                        <label htmlFor="goldSmith">Gold Smiths list</label>
 
-                                    <select
-                                        id="goldSmith"
-                                        name="goldSmith"
-                                        value={goldSmith}
-                                        onChange={(e) => setGoldSmith(e.target.value)}
-                                    >
-                                        <option value={null}>select description</option>
-                                        <option value={0}>RANJIT</option>
-                                        <option  value={1}>BAPAN KHANRA</option>
-                                        <option  value={2}>DEBAJISH BERA</option>
-                                        <option value={3}>KAUSIK JANA</option>
-                                        <option value={4}>BISWAJIT PARYA</option>
-                                        <option value={5}>PRAFULLA MAL</option>
-                                        <option value={6}>KHOKAN SAMANTA</option>
-                                        <option value={7}>BARUN KUMAR DAS</option>
-                                    </select>
+                                        <select
+                                            id="goldSmith"
+                                            name="goldSmith"
+                                            value={goldSmith}
+                                            onChange={(e) => setGoldSmith(e.target.value)}
+                                        >
+                                            <option value={null}>select description</option>
+                                            <option value={0}>RANJIT</option>
+                                            <option value={1}>BAPAN KHANRA</option>
+                                            <option value={2}>DEBAJISH BERA</option>
+                                            <option value={3}>KAUSIK JANA</option>
+                                            <option value={4}>BISWAJIT PARYA</option>
+                                            <option value={5}>PRAFULLA MAL</option>
+                                            <option value={6}>KHOKAN SAMANTA</option>
+                                            <option value={7}>BARUN KUMAR DAS</option>
+                                        </select>
+                                    </div>
+                                }
+                                {
+                                    isClicked && <article className="md:grid grid-cols-2 gap-10">
+
+                                        <div className="flex flex-col">
+                                            <label htmlFor="goldName">Goldsmith Name</label>
+                                            <input
+                                                required
+                                                type="text"
+                                                name="goldName"
+                                                id="goldName"
+                                                placeholder="Goldsmith Name"
+                                                autoComplete="off"
+                                                value={goldName}
+                                                onChange={(e) => setGoldName(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <label htmlFor="goldPan">Goldsmith PAN</label>
+                                            <input
+                                                required
+                                                type="text"
+                                                name="goldPan"
+                                                id="goldPan"
+                                                placeholder="Goldsmith PAN"
+                                                autoComplete="off"
+                                                value={goldPan}
+                                                onChange={(e) => setGoldPan(e.target.value)}
+                                            />
+                                        </div>
+                                    </article>
+                                }
+                                <div>
+                                    <button
+                                        onClick={(e) => { handleClick(e) }}
+                                        className="mb-5 bg-red-500 text-white font-bold py-2 px-5 rounded shadow border-2 border-red-500 hover:bg-transparent hover:text-red-500 transition-all duration-300">
+                                        {isClicked ? "Cancel" : "Add new Goldsmith"}
+                                    </button>
                                 </div>
                             </article>
                             <article>
-                            <div className="flex flex-col">
+                                <div className="flex flex-col">
                                     <label htmlFor="address">Gold smith address</label>
                                     <input
                                         required
@@ -253,16 +300,16 @@ function Making() {
                         </div>
                     </div>
                     <div className="second-div border">
-                        <p className="head-address left width-20" colspan="2">No : {invoiceNumber}</p>
+                        <p className="head-address left width-20" colspan="2">No : CB/{invoiceNumber}</p>
                         <p className="head-address width-20" colspan="3">COOLIEE BILL</p>
                         <p className="head-address right width-20" colspan="2">Date : {invoiceDate ? moment(invoiceDate).format("DD-MM-YYYY") : ""}</p>
 
                     </div>
                     <div className=" border font-13 flex-between" style={{ padding: "5px 10px" }}>
                         <div>
-                            <p style={{ fontSize:"12px" }}>M/S. {goldSmith !== null ? smithArray[goldSmith] : ""}</p>
-                            <p style={{ fontSize:"12px" }}>PAN : {goldSmith !== null ? panArray[goldSmith] : ""}</p>
-                            <p style={{ marginBottom: 0, fontSize:"14px" }}>{address}</p>
+                            <p style={{ fontSize: "12px" }}>M/S. {(!isClicked && goldSmith !== null) ? smithArray[goldSmith] : goldName}</p>
+                            <p style={{ fontSize: "12px" }}>PAN : {(!isClicked && goldSmith !== null) ? panArray[goldSmith] : goldPan}</p>
+                            <p style={{ marginBottom: 0, fontSize: "14px" }}>{address}</p>
                             <p style={{ marginTop: "5px", marginBottom: 0 }}>GSTin: UnRegistered</p>
                         </div>
                         <div>
@@ -344,7 +391,7 @@ function Making() {
                                         <div className="width-50 mini" >
                                             <div className="right-border-only width-100 center-align">
                                                 <div className="border-bottom pad-5">Central Tax</div>
-                                                <div style={{ fontSize:"12px" }}>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <div>
                                                         <p className="margin-0">
                                                             Rate
@@ -358,9 +405,9 @@ function Making() {
                                             </div>
                                             <div className="width-100 center-align">
                                                 <div className="border-bottom pad-5">State Tax</div>
-                                                <div style={{ fontSize:"12px" }}>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <div>
-                                                        <p  className="margin-0">
+                                                        <p className="margin-0">
                                                             Rate
                                                             2.5%
                                                         </p>
@@ -380,7 +427,7 @@ function Making() {
                                 <td colspan="1" className="border-right"></td>
                                 <td className="border-right"></td>
                             </tr>
-                                    
+
                             <tr className="row ">
                                 <td colspan="6" className="bot-white height-30"></td>
                                 <td colspan="1" className="border-right"></td>
@@ -398,7 +445,7 @@ function Making() {
                                 <td colspan="6" className="bot-white"></td>
                                 <td colspan="1" className="border-right font-13">Total</td>
                                 <td colspan="1" className="border-right"></td>
-                                <td className="border-right font-13">{total ? (parseFloat(total).toFixed(2)-tds.toFixed(2)) : 0}</td>
+                                <td className="border-right font-13">{total ? (parseFloat(grandWithTax) - tds).toFixed(2) : 0}</td>
                             </tr>
                             <tr className="row ">
                                 <td colspan="6" className="bot-white bot-bor-hidden"></td>
@@ -407,7 +454,7 @@ function Making() {
                                 <td className="border-right"></td>
                             </tr>
                             <tr className="row ">
-                                <td colspan="6" style={{textAlign:"initial", position:"relative",top:"10px",left:"10px"}} className="bot-white bot-bor-hidden">GST Payable on RCM Rs. {totalGst.toFixed(2)}</td>
+                                <td colspan="6" style={{ textAlign: "initial", position: "relative", top: "10px", left: "10px" }} className="bot-white bot-bor-hidden">GST Payable on RCM Rs. {totalGst.toFixed(2)}</td>
                                 <td colspan="1" className="border-right"></td>
                                 <td colspan="1" className="border-right"></td>
                                 <td className="border-right"></td>

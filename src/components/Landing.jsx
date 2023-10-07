@@ -17,7 +17,9 @@ function Landing() {
      <a className="anch" href="/bsm-invoice/#/cooliee">
         Cooliee Bill
      </a>
-     
+     <a className="anch" href="/bsm-invoice/#/issue">
+        Issue Voucher
+     </a>
      </div>
      </section>
     </>

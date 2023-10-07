@@ -27,6 +27,8 @@ function SalesInvoice() {
   const [gSum, setGsum] = useState(0)
   const [pSum, setPsum] = useState(0)
   const [width] = useState(641)
+  const [isClicked, setIsClicked] = useState(false)
+  const [addressList, setAddressList] = useState("")
 
   const componentRef = useRef()
 
@@ -94,6 +96,15 @@ function SalesInvoice() {
 
   }
 
+  let handleClick = (e) => {
+    e.preventDefault();
+    setIsClicked(!isClicked)
+  }
+
+  let nameArray = ["ONLY CHAINS", "SRI BALAJI JEWELLERS",]
+  let addressArray = ["359/11-13 jewel Manor Complex Ground Floor Raja Street Coimbatore-641001", "136A Kamadenu Bavan Swami Iyer New Street Coimbatore 641001",]
+  let gstArray = ["33AAFFO5037J1ZA", "33AIEPB2138C1Z5"]
+
   function floatInWords(num) {
     var splittedNum = num.toString().split('.')
     var nonDecimal = splittedNum[0]
@@ -105,8 +116,8 @@ function SalesInvoice() {
   let grandTotal = parseFloat(total) + renderGst
   let roundOff = grandTotal - parseInt(grandTotal)
 
-  const simpleYear = moment(new Date()).format( "YY" );
-  let prevYear = parseInt(simpleYear)-1
+  // const simpleYear = moment(new Date()).format( "YY" );
+  // let prevYear = parseInt(simpleYear)-1
 
   let renderTax = list?.map((l, i) => {
     return (
@@ -173,52 +184,80 @@ function SalesInvoice() {
                   />
                 </div>
               </article>
-              <article className="md:grid grid-cols-2 gap-5">
-                <div className="flex flex-col">
-                  <label htmlFor="billName">Billing Name</label>
-                  <input
-                    required
-                    type="text"
-                    name="billName"
-                    id="billName"
-                    placeholder="Name"
-                    autoComplete="off"
-                    value={billName}
-                    onChange={(e) => setbillName(e.target.value)}
-                  />
+       
+                   <article className="note">
+                <div>
+                  <button
+                    onClick={(e) => { handleClick(e) }}
+                    className="mb-5 bg-red-500 text-white font-bold py-2 px-5 rounded shadow border-2 border-red-500 hover:bg-transparent hover:text-red-500 transition-all duration-300">
+                    {isClicked ? "Cancel" : "Add new Address"}
+                  </button>
                 </div>
-                <div className="flex flex-col">
-                  <label htmlFor="billGst">Billing GST</label>
-                  <input
-                    required
-                    type="text"
-                    name="billGst"
-                    id="billGst"
-                    placeholder="GST Number"
-                    autoComplete="off"
-                    value={billGst}
-                    onChange={(e) => setbillGst(e.target.value)}
-                  />
-                </div>
+                {
+                  !isClicked && <div className="flex flex-col">
+                    <label htmlFor="addressList">Address List</label>
+
+                    <select
+                      id="addressList"
+                      name="addressList"
+                      value={addressList}
+                      onChange={(e) => setAddressList(e.target.value)}
+                    >
+                      <option value={null}>select description</option>
+                      <option value={0}>ONLY CHAINS</option>
+                      <option value={1}>SRI BALAJI JEWELLERS</option>
+
+                    </select>
+                  </div>
+                }
+                {isClicked && <article>
+                  <article className="md:grid grid-cols-2 gap-5">
+                    <div className="flex flex-col">
+                      <label htmlFor="billName">Billing Name</label>
+                      <input
+                        required
+                        type="text"
+                        name="billName"
+                        id="billName"
+                        placeholder="Name"
+                        autoComplete="off"
+                        value={billName}
+                        onChange={(e) => setbillName(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor="billGst">Billing GST</label>
+                      <input
+                        required
+                        type="text"
+                        name="billGst"
+                        id="billGst"
+                        placeholder="GST Number"
+                        autoComplete="off"
+                        value={billGst}
+                        onChange={(e) => setbillGst(e.target.value)}
+                      />
+                    </div>
+
+                  </article>
+                  <div style={{ width: "100%" }}>
+                    <label htmlFor="billAddress">Billing Address</label>
+                    <input
+                      style={{ width: "100%" }}
+                      required
+                      type="text"
+                      name="billAddress"
+                      id="billAddress"
+                      placeholder="Address"
+                      autoComplete="off"
+                      value={billAddress}
+                      onChange={(e) => setbillAddress(e.target.value)}
+                    />
+                  </div>
+                </article>}
+
 
               </article>
-              <div className="">
-                <div style={{ width: "100%" }}>
-                  <label htmlFor="billAddress">Billing Address</label>
-                  <input
-                    style={{ width: "100%" }}
-                    required
-                    type="text"
-                    name="billAddress"
-                    id="billAddress"
-                    placeholder="Address"
-                    autoComplete="off"
-                    value={billAddress}
-                    onChange={(e) => setbillAddress(e.target.value)}
-                  />
-                </div>
-
-              </div>
 
               {/* This is our table form */}
               <article>
@@ -305,9 +344,9 @@ function SalesInvoice() {
                 }}>INVOICE TO:</h3>
                 <div style={{ paddingLeft: "20px", lineHeight: 1.4 }} >
 
-                  <h2 style={{ fontWeight: 600, textTransform: "uppercase" }} className="">{billName}</h2>
-                  <p style={{ fontSize:"14px", textTransform:"capitalize" }}>{billAddress}</p>
-                  <p style={{ textTransform: "uppercase" }}>GSTin : <b>{billGst}</b></p>
+                                   <h2 style={{ fontWeight: 600, textTransform: "uppercase" }} className="">{(!isClicked && addressList !== null) ? nameArray[addressList] : billName}</h2>
+                  <p style={{ fontSize: "14px" }}>{(!isClicked && addressList !== null) ? addressArray[addressList] : billAddress}</p>
+                  <p style={{ textTransform: "uppercase" }}>GSTin : <b>{(!isClicked && addressList !== null) ? gstArray[addressList] : billGst}</b></p>
                 </div>
               </div>
               <div style={{
@@ -317,7 +356,7 @@ function SalesInvoice() {
                 fontSize: "15px"
               }} className="first-div"> 
                 <div style={{ paddingLeft: "20px", paddingTop:"10px" }}>
-                  <p><b>Invoice No : </b> BSM/GST/{invoiceNumber}/{prevYear +"-"+simpleYear}</p>
+                  <p><b>Invoice No : </b> BSM/{invoiceNumber}</p>
                   <p><b>Invoice Date : </b> {invoiceDate ? moment(invoiceDate).format("DD-MM-YYYY") : ""}</p>
                 </div>
               </div>

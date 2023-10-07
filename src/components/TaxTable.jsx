@@ -41,7 +41,7 @@ export default function TaxTable({
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if(description !== "Hallmark Charge"){
+    if (description !== "Hallmark Charge") {
       if (!description || !hsn || !gst || !pcs || !nweight || !gweight || !rate || !touch) {
         toast.error("Please fill in all inputs")
       } else {
@@ -72,7 +72,7 @@ export default function TaxTable({
         setList([...list, newItems])
         setIsEditing(false)
       }
-    }else{
+    } else {
       const newItems = {
         id: uuidv4(),
         description,
@@ -82,7 +82,7 @@ export default function TaxTable({
         touch,
         gweight,
         nweight,
-        rate,        
+        rate,
         gstValue,
         amount,
       }
@@ -101,29 +101,29 @@ export default function TaxTable({
       setIsEditing(false)
     }
   }
-  
-  let handleClick = (e)=>{
+
+  let handleClick = (e) => {
     e.preventDefault();
     setIsClicked(!isClicked)
-}
+  }
 
   // Calculate items amount function
   useEffect(() => {
     const calculateAmount = (amount) => {
 
       let total = parseFloat(rate * nweight)
-      if(description === "Hallmark Charge"){
+      if (description === "Hallmark Charge") {
         setAmount(parseFloat(newAmount).toFixed(2))
-        setGstValue(parseFloat(newAmount).toFixed(2)/100 * gst)
-      }else{
+        setGstValue(parseFloat(newAmount).toFixed(2) / 100 * gst)
+      } else {
         setAmount(total.toFixed(2))
-        setGstValue(total.toFixed(2)/100 * gst)
+        setGstValue(total.toFixed(2) / 100 * gst)
 
       }
     }
 
     calculateAmount(amount)
-  }, [amount, rate, setAmount, description, newAmount, nweight,setGstValue, gst])
+  }, [amount, rate, setAmount, description, newAmount, nweight, setGstValue, gst])
 
   // Calculate total amount of items in table
   useEffect(() => {
@@ -145,7 +145,7 @@ export default function TaxTable({
     }
     for (let i = 0; i < nrows.length; i++) {
       if (nrows[i].className === "nw") {
-        nsum += isNaN(nrows[i].innerHTML)  || grows[i].innerHTML === ""  ? 0 : parseFloat(nrows[i].innerHTML)
+        nsum += isNaN(nrows[i].innerHTML) || grows[i].innerHTML === "" ? 0 : parseFloat(nrows[i].innerHTML)
         setNsum(nsum.toFixed(3))
       }
     }
@@ -157,7 +157,7 @@ export default function TaxTable({
     }
     for (let i = 0; i < prows.length; i++) {
       if (prows[i].className === "pcs") {
-        psum += isNaN(prows[i].innerHTML)  || grows[i].innerHTML === ""  ? 0 : parseInt(prows[i].innerHTML)
+        psum += isNaN(prows[i].innerHTML) || grows[i].innerHTML === "" ? 0 : parseInt(prows[i].innerHTML)
         setPsum(psum)
       }
     }
@@ -187,61 +187,64 @@ export default function TaxTable({
       <ToastContainer position="top-right" theme="colored" />
 
       <form onSubmit={handleSubmit}>
-      <div className="flex flex-col md:mt-2">
-                    <div className="flex flex-row" style={{
-                        alignItems:"center"
-                    }}>
-                       {isClicked &&  <div className="flex flex-col" style={{
-                            width:"65%"
-                        }}>
+        <div className="flex flex-col md:mt-2">
+          <div className="flex flex-row note" style={{
+            alignItems: "center"
+          }}>
+            {
+              !isClicked && <div className="flex flex-col md:mt-2" style={{
+                width: "65%"
+              }}>
+                <label htmlFor="description">Item description</label>
 
-                            <label htmlFor="newText">Particulars</label>
-                            <input
-                                type="text"
-                                name="newText"
-                                id="newText"
-                                placeholder="Description"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                            />
-                        </div>}
-                       <div>
-                       <button 
-                       onClick={(e)=>{handleClick(e)}}
-                       className="mb-5 bg-red-500 text-white font-bold py-2 px-5 rounded shadow border-2 border-red-500 hover:bg-transparent hover:text-red-500 transition-all duration-300">
-                            {isClicked ? "Cancel" : "New Item"}
-                        </button>
-                       </div>
-                    </div>
+                <select
+                  id="description"
+                  name="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                >
+                  <option disabled>select description</option>
+                  <option value="NEW GOLD ORNAMENTS">NEW GOLD ORNAMENTS</option>
+                  <option value="Fancy Haram">Fancy Haram</option>
+                  <option value="Fancy Necklace">Fancy Necklace</option>
+                  <option value="Stud Tops">Stud Tops</option>
+                  <option value="Ring(s)">Ring(s)</option>
+                  <option value="Bangle(s)">Bangle(s)</option>
+                  <option value="Chain(s)">Chain(s)</option>
+                  <option value="Braslet(s)">Braslet(s)</option>
+                  <option value="Mango Malai">Mango Malai</option>
+                  <option value="Mango Necklace">Mango Necklace</option>
+                  <option value="Lakshmi Kasu Malai">Lakshmi Kasu Malai</option>
+                  <option value="Lakshmi Kasu Necklace">Lakshmi Kasu Necklace</option>
+                  <option value="Hallmark Charge">Hallmark Charge</option>
+                </select>
+              </div>
+            }
+            {isClicked && <div className="flex flex-col" style={{
+              width: "65%"
+            }}>
 
-                </div>
-        {
-          !isClicked && <div className="flex flex-col md:mt-16">
-          <label htmlFor="description">Item description</label>
+              <label htmlFor="newText">Particulars</label>
+              <input
+                type="text"
+                name="newText"
+                id="newText"
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>}
+            <div>
+              <button
+                onClick={(e) => { handleClick(e) }}
+                className="mb-5 bg-red-500 text-white font-bold py-2 px-5 rounded shadow border-2 border-red-500 hover:bg-transparent hover:text-red-500 transition-all duration-300">
+                {isClicked ? "Cancel" : "New Item"}
+              </button>
+            </div>
+          </div>
 
-          <select
-            id="description"
-            name="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          >
-            <option disabled>select description</option>
-            <option value="NEW GOLD ORNAMENTS">NEW GOLD ORNAMENTS</option>
-            <option value="Fancy Haram">Fancy Haram</option>
-            <option value="Fancy Necklace">Fancy Necklace</option>
-            <option value="Stud Tops">Stud Tops</option>
-            <option value="Ring(s)">Ring(s)</option>
-            <option value="Bangle(s)">Bangle(s)</option>
-            <option value="Chain(s)">Chain(s)</option>
-            <option value="Braslet(s)">Braslet(s)</option>
-            <option value="Mango Malai">Mango Malai</option>
-            <option value="Mango Necklace">Mango Necklace</option>
-            <option value="Lakshmi Kasu Malai">Lakshmi Kasu Malai</option>
-            <option value="Lakshmi Kasu Necklace">Lakshmi Kasu Necklace</option>
-            <option value="Hallmark Charge">Hallmark Charge</option>
-          </select>
         </div>
-        }
+
 
         <div className="md:grid grid-cols-4 gap-10">
           <div className="flex flex-col">
@@ -271,77 +274,77 @@ export default function TaxTable({
           </div>
           {
             description === "Hallmark Charge" && <div className="flex flex-col">
-            <label htmlFor="newAmount">Amount</label>
-            <input
-              type="number"
-              name="newAmount"
-              id="newAmount"
-              placeholder="Amount"
-              value={newAmount}
-              onChange={(e) => setNewAmount(e.target.value)}
-            />
-          </div>
+              <label htmlFor="newAmount">Amount</label>
+              <input
+                type="number"
+                name="newAmount"
+                id="newAmount"
+                placeholder="Amount"
+                value={newAmount}
+                onChange={(e) => setNewAmount(e.target.value)}
+              />
+            </div>
           }
           {description !== "Hallmark Charge" && <>
-          <div className="flex flex-col">
-            <label htmlFor="Pcs">PCS</label>
-            <input
-              type="number"
-              name="Pcs"
-              id="Pcs"
-              placeholder="Pcs"
-              value={pcs}
-              onChange={(e) => setPcs(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="Touch">Touch</label>
-            <input
-              type="text"
-              name="Touch"
-              id="Touch"
-              placeholder="Touch"
-              value={touch}
-              onChange={(e) => setTouch(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="Gweight">Gross Wt</label>
-            <input
-              type="number"
-              name="Gweight"
-              id="Gweight"
-              placeholder="Gweight"
-              value={gweight}
-              onChange={(e) => setGweight(e.target.value)}
-            />
-          </div></>}
+            <div className="flex flex-col">
+              <label htmlFor="Pcs">PCS</label>
+              <input
+                type="number"
+                name="Pcs"
+                id="Pcs"
+                placeholder="Pcs"
+                value={pcs}
+                onChange={(e) => setPcs(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="Touch">Touch</label>
+              <input
+                type="text"
+                name="Touch"
+                id="Touch"
+                placeholder="Touch"
+                value={touch}
+                onChange={(e) => setTouch(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="Gweight">Gross Wt</label>
+              <input
+                type="number"
+                name="Gweight"
+                id="Gweight"
+                placeholder="Gweight"
+                value={gweight}
+                onChange={(e) => setGweight(e.target.value)}
+              />
+            </div></>}
 
         </div>
         <div className="md:grid grid-cols-3 gap-10">
           {description !== "Hallmark Charge" && <>
-          <div className="flex flex-col">
-            <label htmlFor="Nweight">Net Wt</label>
-            <input
-              type="number"
-              name="Nweight"
-              id="Nweight"
-              placeholder="Nweight"
-              value={nweight}
-              onChange={(e) => setNweight(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="Rate">Rate</label>
-            <input
-              type="number"
-              name="Rate"
-              id="Rate"
-              placeholder="Rate"
-              value={rate}
-              onChange={(e) => setRate(e.target.value)}
-            />
-          </div></>}
+            <div className="flex flex-col">
+              <label htmlFor="Nweight">Net Wt</label>
+              <input
+                type="number"
+                name="Nweight"
+                id="Nweight"
+                placeholder="Nweight"
+                value={nweight}
+                onChange={(e) => setNweight(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="Rate">Rate</label>
+              <input
+                type="number"
+                name="Rate"
+                id="Rate"
+                placeholder="Rate"
+                value={rate}
+                onChange={(e) => setRate(e.target.value)}
+              />
+            </div></>}
           <div className="flex flex-col">
             <label htmlFor="amount">Amount</label>
             <p>{amount}</p>
@@ -371,7 +374,7 @@ export default function TaxTable({
             <td className="font-bold">Amount</td>
           </tr>
         </thead>
-        {list.map(({ id, description, hsn, gst, pcs,touch, gweight, nweight, rate, amount }) => (
+        {list.map(({ id, description, hsn, gst, pcs, touch, gweight, nweight, rate, amount }) => (
           <React.Fragment key={id}>
             <tbody>
               <tr className="h-10">

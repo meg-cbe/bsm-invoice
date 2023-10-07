@@ -8,6 +8,7 @@ function IssueReceipt() {
 
     const [invoiceNumber, setInvoiceNumber] = useState("")
     const [invoiceDate, setInvoiceDate] = useState("")
+    const [date, setDate] = useState("")
     const [toName, setToName] = useState("")
     const [description, setDescription] = useState("select description")
     const [gold, setGold] = useState("")
@@ -35,12 +36,13 @@ function IssueReceipt() {
     let issuePure = issueList?.map(i => i.pure).reduce((prev, next) =>  parseFloat(prev) + parseFloat(next), 0)
     let receiptPure = receiptList?.map(i => i.pure).reduce((prev, next) => parseFloat(prev) + parseFloat(next), 0)
     let totalPure = (parseFloat(issuePure) - parseFloat(receiptPure)) + parseFloat(op)
-    let totalgram = (parseFloat(totalPure) / 91.7) * 100
-
+    let totalgram = (parseFloat(totalPure) /parseFloat(touch)) * 100
+    console.log(parseFloat(touch), touch, "touch")
     let renderList = issueList?.map((l, i) => {
         return (
             <tr className="height-22" key={i}>
-                <td colspan="3" className="font-10 pad-left-5">{l.description}</td>
+                <td colspan="3" className="font-10 pad-left-5">{l.date && <p>{moment(l.date).format("DD/MM/YY")} -</p>}
+                <p>{l.description}</p></td>
                 <td colspan="2" className="font-10 pad-0">{l.gold}</td>
                 <td colspan="2" className="font-10 pad-0">{l.stone === 0 ? "" : l.stone}</td>
                 <td colspan="2" className="font-10 pad-0">{l.touch}</td>
@@ -52,7 +54,8 @@ function IssueReceipt() {
     let renderRList = receiptList?.map((l, i) => {
         return (
             <tr className="height-22" key={i}>
-                <td colspan="3" className="font-10 pad-left-50">{l.description}</td>
+                <td colspan="3" className="font-10 pad-left-50">{l.date && <p>{moment(l.date).format("DD/MM/YY")} -</p>}
+                <p>{l.description}</p></td>
                 <td colspan="2" className="font-10 pad-0">{l.gold}</td>
                 <td colspan="2" className="font-10 pad-0">{l.stone === 0 ? "" : l.stone}</td>
                 <td colspan="2" className="font-10 pad-0">{l.touch}</td>
@@ -150,6 +153,8 @@ function IssueReceipt() {
                                     setList={setList}
                                     total={total}
                                     setTotal={setTotal}
+                                    date={date}
+                                    setDate={setDate}
                                 />
                             </article>
 

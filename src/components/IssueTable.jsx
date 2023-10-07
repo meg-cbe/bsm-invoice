@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
+import moment from 'moment'
 import { v4 as uuidv4 } from "uuid"
 import "react-toastify/dist/ReactToastify.css"
 
@@ -19,7 +20,9 @@ export default function IssueTable({
     list,
     setList,
     option,
-    setOption
+    setOption,
+    date,
+    setDate
 
 }) {
     const [isEditing, setIsEditing] = useState(false)
@@ -36,13 +39,14 @@ export default function IssueTable({
             touch,
             waste,
             stone,
+            date,
             pure,
             option
         }
         setDescription("select description")
         setOption("Select Option")
         setGold("")
-        setTouch("")
+        setDate("")
         setStone("")
         setWaste("")
         setIsClicked(false)
@@ -52,7 +56,7 @@ export default function IssueTable({
 
     }
 
-    let handleClick = (e)=>{
+    let handleClick = (e) => {
         e.preventDefault();
         setIsClicked(!isClicked)
     }
@@ -136,10 +140,10 @@ export default function IssueTable({
                 </div>
                 <div className="flex flex-col md:mt-2">
                     <div className="flex flex-row" style={{
-                        alignItems:"center"
+                        alignItems: "center"
                     }}>
-                       {isClicked &&  <div className="flex flex-col" style={{
-                            width:"65%"
+                        {isClicked && <div className="flex flex-col" style={{
+                            width: "65%"
                         }}>
 
                             <label htmlFor="newText">Particulars</label>
@@ -152,43 +156,55 @@ export default function IssueTable({
                                 onChange={(e) => setDescription(e.target.value)}
                             />
                         </div>}
-                       <div>
-                       <button 
-                       onClick={(e)=>{handleClick(e)}}
-                       className="mb-5 bg-red-500 text-white font-bold py-2 px-5 rounded shadow border-2 border-red-500 hover:bg-transparent hover:text-red-500 transition-all duration-300">
-                            {isClicked ? "Cancel" : "New Item"}
-                        </button>
-                       </div>
+                        <div>
+                            <button
+                                onClick={(e) => { handleClick(e) }}
+                                className="mb-5 bg-red-500 text-white font-bold py-2 px-5 rounded shadow border-2 border-red-500 hover:bg-transparent hover:text-red-500 transition-all duration-300">
+                                {isClicked ? "Cancel" : "New Item"}
+                            </button>
+                        </div>
                     </div>
 
                 </div>
                 {
                     !isClicked && <div className="flex flex-col md:mt-2">
-                    <label htmlFor="description">Particulars</label>
-                    <select
-                        id="description"
-                        name="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    >
-                        <option disabled>select description</option>
-                        <option value="NEW GOLD ORNAMENTS">NEW GOLD ORNAMENTS</option>
-                        <option value="Fancy Haram">Fancy Haram</option>
-                        <option value="Fancy Necklace">Fancy Necklace</option>
-                        <option value="Stud Tops">Stud Tops</option>
-                        <option value="Ring(s)">Ring(s)</option>
-                        <option value="Bangle(s)">Bangle(s)</option>
-                        <option value="Chain(s)">Chain(s)</option>
-                        <option value="Braslet(s)">Braslet(s)</option>
-                        <option value="Mango Malai">Mango Malai</option>
-                        <option value="Mango Necklace">Mango Necklace</option>
-                        <option value="Lakshmi Kasu Malai">Lakshmi Kasu Malai</option>
-                        <option value="Lakshmi Kasu Necklace">Lakshmi Kasu Necklace</option>
-                    </select>
-                </div>
+                        <label htmlFor="description">Particulars</label>
+                        <select
+                            id="description"
+                            name="description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        >
+                            <option disabled>select description</option>
+                            <option value="NEW GOLD ORNAMENTS">NEW GOLD ORNAMENTS</option>
+                            <option value="Fancy Haram">Fancy Haram</option>
+                            <option value="Fancy Necklace">Fancy Necklace</option>
+                            <option value="Stud Tops">Stud Tops</option>
+                            <option value="Ring(s)">Ring(s)</option>
+                            <option value="Bangle(s)">Bangle(s)</option>
+                            <option value="Chain(s)">Chain(s)</option>
+                            <option value="Braslet(s)">Braslet(s)</option>
+                            <option value="Mango Malai">Mango Malai</option>
+                            <option value="Mango Necklace">Mango Necklace</option>
+                            <option value="Lakshmi Kasu Malai">Lakshmi Kasu Malai</option>
+                            <option value="Lakshmi Kasu Necklace">Lakshmi Kasu Necklace</option>
+                        </select>
+                    </div>
                 }
 
                 <div className="md:grid grid-cols-4 gap-5">
+                    <div className="flex flex-col">
+                        <label htmlFor="date">Date</label>
+                        <input
+                            type="date"
+                            name="date"
+                            id="date"
+                            placeholder="dd-mm-yyyy"
+                            autoComplete="off"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                        />
+                    </div>
                     <div className="flex flex-col">
                         <label htmlFor="gold">Gold Wgt</label>
                         <input
@@ -268,11 +284,11 @@ export default function IssueTable({
                         <td className="font-bold">Pure</td>
                     </tr>
                 </thead>
-                {list.map(({ id, description, gold, stone, touch, waste, pure }) => (
+                {list.map(({ id, description, gold, stone, touch, waste, pure, date }) => (
                     <React.Fragment key={id}>
                         <tbody>
                             <tr className="h-10">
-                                <td>{description}</td>
+                                <td>{date && <p>{moment(date).format("DD/MM")} -</p>}<p>{description}</p></td>
                                 <td>{gold}</td>
                                 <td>{stone}</td>
                                 <td>{touch}</td>

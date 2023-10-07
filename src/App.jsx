@@ -5,6 +5,7 @@ import Landing from "./components/Landing"
 import SalesInvoice from "./components/SalesInvoice"
 import TaxInvoice from "./components/TaxInvoice"
 import Making from "./components/Making"
+import IssueVoucher from "./components/IssueVoucher"
 
 export default function App() {
 
@@ -49,6 +50,14 @@ export default function App() {
           element={
             <React.Fragment>
               <Making />
+            </React.Fragment>
+          }
+        ></Route>
+        <Route
+          path="/issue"
+          element={
+            <React.Fragment>
+              <IssueVoucher />
             </React.Fragment>
           }
         ></Route>
