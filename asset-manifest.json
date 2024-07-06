@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/bsm-invoice/static/css/main.0822c156.css",
-    "main.js": "/bsm-invoice/static/js/main.dad13f5b.js",
+    "main.js": "/bsm-invoice/static/js/main.7860cef8.js",
     "static/media/bsm logo.png": "/bsm-invoice/static/media/bsm logo.94965743cfdd9e86e8b5.png",
     "index.html": "/bsm-invoice/index.html",
     "main.0822c156.css.map": "/bsm-invoice/static/css/main.0822c156.css.map",
-    "main.dad13f5b.js.map": "/bsm-invoice/static/js/main.dad13f5b.js.map"
+    "main.7860cef8.js.map": "/bsm-invoice/static/js/main.7860cef8.js.map"
   },
   "entrypoints": [
     "static/css/main.0822c156.css",
-    "static/js/main.dad13f5b.js"
+    "static/js/main.7860cef8.js"
   ]
 }
