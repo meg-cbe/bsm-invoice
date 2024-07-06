@@ -101,9 +101,9 @@ function SalesInvoice() {
     setIsClicked(!isClicked)
   }
 
-  let nameArray = ["ONLY CHAINS", "SRI BALAJI JEWELLERS",]
-  let addressArray = ["359/11-13 jewel Manor Complex Ground Floor Raja Street Coimbatore-641001", "136A Kamadenu Bavan Swami Iyer New Street Coimbatore 641001",]
-  let gstArray = ["33AAFFO5037J1ZA", "33AIEPB2138C1Z5"]
+  let nameArray = ["ONLY CHAINS", "SRI BALAJI JEWELLERS", "SRI BALAJEE JEWELLERS"]
+  let addressArray = ["359/11-13 jewel Manor Complex Ground Floor Raja Street Coimbatore-641001", "136A Kamadenu Bavan Swami Iyer New Street Coimbatore 641001", "363 Harimegala Towers 2th Floor Raja Street Coimbatore 641001"]
+  let gstArray = ["33AAFFO5037J1ZA", "33AIEPB2138C1Z5", "33AGFPN6182R1ZQ"]
 
   function floatInWords(num) {
     var splittedNum = num.toString().split('.')
@@ -206,6 +206,7 @@ function SalesInvoice() {
                       <option value={null}>select description</option>
                       <option value={0}>ONLY CHAINS</option>
                       <option value={1}>SRI BALAJI JEWELLERS</option>
+                      <option value={2}>SRI BALAJEE JEWELLERS</option>
 
                     </select>
                   </div>
@@ -316,7 +317,7 @@ function SalesInvoice() {
         <div ref={componentRef} style={{ paddingLeft: "20px", paddingRight: "20px" }} className="page" size="A4">
           <div style={{ position: "relative" }}>
             <p className="head-address no-top right">(Original/Copy)</p>
-            <h2 className="tax-head">Receipt Voucher</h2>
+            <h2 className="tax-head">Service Bill</h2>
           </div>
           <div style={{ marginTop: "20px" }} className="border border-bot-non">
             <div style={{ marginTop: "5px" }} className="main-div">

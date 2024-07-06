@@ -9,7 +9,7 @@ function Landing() {
         Tax Invoice
      </a>
      <a className="anch" href="/bsm-invoice/#/receipt">
-        Receipt Voucher
+        Service Bill
      </a>
      <a className="anch" href="/bsm-invoice/#/issueVoucher">
         Estimation
