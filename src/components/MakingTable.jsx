@@ -128,7 +128,7 @@ export default function MakingTable({
                             <option disabled>HSN/SAC</option>
                             <option value="711319">711319</option>
                             <option value="998346">998346</option>
-                            <option value="998892">998892</option>
+                            <option value="998894">998894</option>
                         </select>
                     </div>
                     <div className="flex flex-col">

@@ -116,7 +116,7 @@ export default function IsVoucher({
             <div>
               <button
                 onClick={(e) => { handleClick(e) }}
-                className="mb-5 bg-red-500 text-white font-bold py-2 px-5 rounded shadow border-2 border-red-500 hover:bg-transparent hover:text-red-500 transition-all duration-300">
+                className="ml-2 bg-red-500 text-white font-bold py-2 px-5 rounded shadow border-2 border-red-500 hover:bg-transparent hover:text-red-500 transition-all duration-300">
                 {isClicked ? "Cancel" : "New Item"}
               </button>
             </div>

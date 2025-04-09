@@ -100,7 +100,7 @@ function TaxInvoice() {
 
   }
 
-  let nameArray = ["ONLY CHAINS", "SRI BALAJI JEWELLERS", "SRI BALAJEE JEWELLERS"]
+  let nameArray = ["ONLY CHAINS", "SRI BALAJI JEWELLERS", "BALAJEE JEWELLERS"]
   let addressArray = ["359/11-13 jewel Manor Complex Ground Floor Raja Street Coimbatore-641001", "136A Kamadenu Bavan Swami Iyer New Street Coimbatore 641001", "363 Harimegala Towers 2th Floor Raja Street Coimbatore 641001"]
   let gstArray = ["33AAFFO5037J1ZA", "33AIEPB2138C1Z5", "33AGFPN6182R1ZQ"]
 
@@ -205,7 +205,7 @@ function TaxInvoice() {
                       <option value={null}>select address</option>
                       <option value={0}>ONLY CHAINS</option>
                       <option value={1}>SRI BALAJI JEWELLERS</option>
-                      <option value={2}>SRI BALAJEE JEWELLERS</option>
+                      <option value={2}>BALAJEE JEWELLERS</option>
 
                     </select>
                   </div>
